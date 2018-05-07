@@ -10,10 +10,39 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_05_07_143632) do
+ActiveRecord::Schema.define(version: 2018_05_07_181144) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "categories", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "comments", force: :cascade do |t|
+    t.string "body"
+    t.bigint "user_id"
+    t.bigint "question_id"
+    t.boolean "edited"
+    t.boolean "deleted"
+    t.boolean "mod_flag"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["question_id"], name: "index_comments_on_question_id"
+    t.index ["user_id"], name: "index_comments_on_user_id"
+  end
+
+  create_table "questions", force: :cascade do |t|
+    t.string "title"
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "category_id"
+    t.index ["category_id"], name: "index_questions_on_category_id"
+    t.index ["user_id"], name: "index_questions_on_user_id"
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "provider"
@@ -23,6 +52,12 @@ ActiveRecord::Schema.define(version: 2018_05_07_143632) do
     t.datetime "oauth_expires_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "admin"
+    t.boolean "mod"
   end
 
+  add_foreign_key "comments", "questions"
+  add_foreign_key "comments", "users"
+  add_foreign_key "questions", "categories"
+  add_foreign_key "questions", "users"
 end
