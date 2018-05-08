@@ -5,7 +5,9 @@ Rails.application.routes.draw do
 
     resources :sessions, only: [:create, :destroy]
     resource :home, only: [:show]
-    resources :categories
+    resources :categories, except: [:destroy, :edit, :update] do
+        resources :questions
+    end
 
     root to: "home#show"
 end
