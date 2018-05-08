@@ -2,7 +2,7 @@ FactoryBot.define do
   factory :user do
     provider "Google"
     uid  "test"
-    name "testUser"
+    sequence(:name) {|n| "name_#{n}"}
     oauth_token "token"
     oauth_expires_at 15.minutes.from_now
     admin false
@@ -18,6 +18,13 @@ FactoryBot.define do
   end
 
   factory :category do
-    name "testCategory"
+    sequence(:name) {|n| "cat_#{n}}"}
+  end
+
+  factory :question do
+    sequence(:title) {|n| "title_#{n}"}
+    body "testBody"*5
+    user
+    category
   end
 end
