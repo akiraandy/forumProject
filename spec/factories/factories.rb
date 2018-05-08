@@ -18,12 +18,12 @@ FactoryBot.define do
   end
 
   factory :category do
-    sequence(:name) { |n| "cat_#{n}}" }
+    sequence(:name) { |n| "cat_#{n}" }
   end
 
   factory :question do
     sequence(:title) { |n| "title_#{n}" }
-    body "testBody"*5
+    body "testBody" * 5
     user
     category
   end

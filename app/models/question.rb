@@ -7,5 +7,4 @@ class Question < ApplicationRecord
   validates_presence_of :title, :body
   validates :title, length: { maximum: 30 }
   validates :body, length: { minimum: 20 }
-
 end
