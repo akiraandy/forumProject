@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 FactoryBot.define do
   factory :user do
     provider "Google"
-    uid  "test"
+    uid "test"
     sequence(:name) { |n| "name_#{n}" }
     oauth_token "token"
     oauth_expires_at 15.minutes.from_now
@@ -29,11 +31,11 @@ FactoryBot.define do
   end
 
   factory :comment do
-      sequence(:body) { |n| "comment_#{n}" }
-      user
-      question
-      edited false
-      deleted false
-      mod_flag false
+    sequence(:body) { |n| "comment_#{n}" }
+    user
+    question
+    edited false
+    deleted false
+    mod_flag false
   end
 end

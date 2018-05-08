@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # A sample Guardfile
 # More info at https://github.com/guard/guard#readme
 
@@ -69,7 +71,7 @@ guard :rspec, cmd: "bundle exec rspec" do
   end
 end
 
-guard 'livereload' do
+guard "livereload" do
   extensions = {
     css: :css,
     scss: :css,
