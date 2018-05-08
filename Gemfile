@@ -40,6 +40,8 @@ gem 'bootsnap', '>= 1.1.0', require: false
 gem 'omniauth-google-oauth2',  '~> 0.5.3' 
 
 group :development, :test do
+  gem 'factory_bot_rails'
+  gem 'rails-controller-testing'
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
   gem 'rspec-rails', '~> 3.7'
