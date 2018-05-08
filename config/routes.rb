@@ -5,9 +5,13 @@ Rails.application.routes.draw do
 
     resources :sessions, only: [:create, :destroy]
     resource :home, only: [:show]
-    resources :categories, except: [:destroy, :edit, :update] do
-        resources :questions
+    resources :categories, except: [:destroy, :edit, :update], shallow: true do
+        resources :questions do
+            resources :comments
+        end
     end
+
+    resources :users
 
     root to: "home#show"
 end
