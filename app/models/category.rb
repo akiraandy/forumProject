@@ -1,7 +1,9 @@
-class Category < ApplicationRecord
-    has_many :questions
+# frozen_string_literal: true
 
-    validates :name, presence: true
-    validates :name, uniqueness: true
-    validates :name, length: { maximum: 10 }
+class Category < ApplicationRecord
+  has_many :questions
+
+  validates :name, presence: true
+  validates :name, uniqueness: true
+  validates :name, length: { maximum: 10 }
 end
