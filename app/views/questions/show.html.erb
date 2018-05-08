@@ -1,1 +1,4 @@
-<%= @question.title %>
+<% if @question %>
+    <h1><%= @question.title %></h1>
+    <p><%= @question.body %></p>
+<% end %>

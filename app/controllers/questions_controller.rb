@@ -6,6 +6,7 @@ class QuestionsController < ApplicationController
     end
 
     def new
+        @category = Category.find(params[:category_id])
         @question = Question.new
     end
 
