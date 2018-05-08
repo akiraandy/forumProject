@@ -1,3 +1,11 @@
 <% if @category %>
-    <%= @category.name %>
+    <h1><%= @category.name %></h1>
+    <ul>
+        <% @category.questions.each do |question| %>
+            <li><%= link_to question.title, category_question_path(@category, question)%></li>
+        <% end %>
+    </ul>
 <% end %>
+
+<%= link_to "Post new question", new_category_question_path(@category) %>
+<%= link_to "All categories", categories_path %>
