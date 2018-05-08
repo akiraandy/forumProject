@@ -9,4 +9,18 @@
 ```
 cd ~/forumProject
 ```
-4. 
+
+4. Install dependencies
+```
+bundle install
+```
+
+5. To run server
+```
+rails s
+```
+
+6. To run tests
+```
+bundle exec rspec
+```
