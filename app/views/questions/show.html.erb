@@ -1,4 +1,14 @@
 <% if @question %>
     <h1><%= @question.title %></h1>
     <p><%= @question.body %></p>
+    <ul>
+    <% if @question.comments %>
+        <% @question.comments.each do |comment| %>
+            <li><%= comment.body %></li>
+        <% end %>
+    <% end %>
+    </ul>
 <% end %>
+
+<%= link_to "Add new comment", new_question_comment_path(@question) %>
+<%= link_to "Back to all questions", category_path(@question.category) %>

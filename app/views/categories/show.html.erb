@@ -2,7 +2,7 @@
     <h1><%= @category.name %></h1>
     <ul>
         <% @category.questions.each do |question| %>
-            <li><%= link_to question.title, category_question_path(@category, question)%></li>
+            <li><%= link_to question.title, question_path(question)%></li>
         <% end %>
     </ul>
 <% end %>

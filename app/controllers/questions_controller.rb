@@ -15,7 +15,7 @@ class QuestionsController < ApplicationController
         @question = Question.new(question_params) 
         @question.attributes = {user: current_user, category: @category}
         if @question.save
-            redirect_to category_question_url(@category, @question)
+            redirect_to question_comments_url(@question)
         else
             render "new"
         end
