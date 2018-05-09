@@ -9,7 +9,18 @@ FactoryBot.define do
     oauth_expires_at 15.minutes.from_now
     admin false
     mod false
+    factory :user_with_question do
+      after :create do |question|
+    create(:question, user: question)
   end
+    end
+    factory :user_with_comment do
+      after :create do |comment|
+        create(:comment, user: comment)
+      end
+    end
+  end
+
 
   factory :admin, class: User do
     provider "Google"
@@ -40,6 +51,9 @@ FactoryBot.define do
     body "testBody" * 5
     user
     category
+    mod_flag false
+    deleted false
+    edited false
   end
 
   factory :comment do
