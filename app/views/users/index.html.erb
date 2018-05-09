@@ -1,0 +1,14 @@
+<h1>Manage users</h1>
+<h3>User List:</h3>
+<ul>
+    <% @users.each do |user| %>
+        <li><%= user.name %></li>
+        <%= form_for user, url: user_path(user) do |f| %>
+            <%= f.label :mod %>
+            <%= f.check_box :mod %>
+            <%= f.label :admin %>
+            <%= f.check_box :admin %>
+            <%= f.submit "Submit" %>
+        <% end %>
+    <% end %>
+</ul>

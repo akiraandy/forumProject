@@ -8,4 +8,8 @@ module ControllerHelpers
   def sign_in_admin
     session[:user_id] = create(:admin).id
   end
+
+  def sign_in_mod
+    session[:user_id] = create(:mod).id
+  end
 end
