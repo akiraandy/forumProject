@@ -7,6 +7,6 @@ class Question < ApplicationRecord
   has_many :commenters, through: :comments, class_name: "User"
 
   validates_presence_of :title, :body
-  validates :title, length: { maximum: 30 }
+  validates :title, length: { maximum: 140 }
   validates :body, length: { minimum: 20 }
 end
