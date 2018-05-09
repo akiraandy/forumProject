@@ -84,5 +84,15 @@ RSpec.describe CommentsController, type: :controller do
       expect(response).to render_template(:edit)
       expect(response).to have_http_status(422)
     end
+
+    it "will turn on the edit flag if body changed" do
+      put :update, params: { id: user_comment.id, comment: { body: "body change! Test test test" } }
+      expect(user_comment.reload.edited).to eq true
+    end
+
+    it "will not turn on the edit flag if another attribute besides the body changed" do
+      put :update, params: { id: user_comment.id, comment: { mod_flag: true } }
+      expect(user_comment.reload.edited).to eq false
+    end
   end
 end
