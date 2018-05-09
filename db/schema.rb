@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_05_09_163015) do
+ActiveRecord::Schema.define(version: 2018_05_09_165942) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -42,6 +42,8 @@ ActiveRecord::Schema.define(version: 2018_05_09_163015) do
     t.datetime "updated_at", null: false
     t.string "body"
     t.boolean "mod_flag"
+    t.boolean "edited"
+    t.boolean "deleted"
     t.index ["category_id"], name: "index_questions_on_category_id"
     t.index ["user_id"], name: "index_questions_on_user_id"
   end
