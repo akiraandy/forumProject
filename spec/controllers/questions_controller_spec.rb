@@ -49,8 +49,54 @@ RSpec.describe QuestionsController, type: :controller do
 
     it "renders new if invalid data received" do
       sign_in_user
-      post :create, params: { category_id: category.id, question: { title: question.title, body: question.body } }
-      expect(response).to redirect_to(question_comments_url(assigns(:question)))
+      post :create, params: { category_id: category.id, question: { title: "", body: question.body } }
+      expect(response).to render_template("new")
+      expect(response).to have_http_status(422)
+    end
+  end
+
+  describe "PUT update" do
+    let(:invalid_question) { create(:question) }
+    let(:user) { sign_in_user_with_question }
+    let(:question) { user.questions.first }
+
+    it "regular users who did not create the question cannot access route" do
+      sign_in_user
+      put :update, params: { id: invalid_question.id, question: { title: "test" } }
+      expect(response).to have_http_status(401)
+    end
+
+    it "mods or admins can update any question" do
+      sign_in_admin
+      put :update, params: { id: question.id, question: { title: "test" } }
+      expect(response).to redirect_to(question_path(question))
+    end
+
+    it "can edit mod_flag" do
+      expect(question.mod_flag).to eq false
+      put :update, params: { id: question.id, question: { mod_flag: true } }
+      expect(response).to redirect_to(question_path(question))
+      expect(question.reload.mod_flag).to eq true
+    end
+
+    it "can edit body" do
+      new_body = "new body who dis?" * 3
+      put :update, params: { id: question.id, question: { body: new_body } }
+      expect(response).to redirect_to(question_path(question))
+      expect(question.reload.body).to eq new_body
+    end
+
+    it "can edit title" do
+      new_title = "new title for question"
+      put :update, params: { id: question.id, question: { body: new_title } }
+      expect(response).to redirect_to(question_path(question))
+      expect(question.reload.body).to eq new_title
+    end
+
+    it "will render show if invalid data given" do
+      put :update, params: { id: question.id, question: { body: "" } }
+      expect(response).to render_template(:edit)
+      expect(response).to have_http_status(422)
     end
   end
 end

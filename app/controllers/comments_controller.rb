@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class CommentsController < ApplicationController
+  include CommentsControllerHelper
+  before_action :can_edit!, only: :update
   before_action :authorize!
 
   def create
@@ -19,8 +21,17 @@ class CommentsController < ApplicationController
     @comment = Comment.new
   end
 
+  def update
+    @comment = Comment.find(params[:id])
+    if @comment.update(comment_params)
+      redirect_to question_path(@comment.question)
+    else
+      render :edit, status: 422
+    end
+  end
+
     private
       def comment_params
-        params.require(:comment).permit(:body)
+        params.require(:comment).permit(:body, :edited, :deleted, :mod_flag)
       end
 end
