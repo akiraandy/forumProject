@@ -27,11 +27,7 @@ class QuestionsController < ApplicationController
 
   def update
     @question = Question.find(params[:id])
-    @question.assign_attributes(question_params)
-    if @question.title_changed? || @question.body_changed?
-      @question.update(edited: true)
-    end
-    if @question.save
+    if @question.update(question_params)
       redirect_to question_path(@question)
     else
       render "edit", status: 422

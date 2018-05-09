@@ -23,11 +23,7 @@ class CommentsController < ApplicationController
 
   def update
     @comment = Comment.find(params[:id])
-    @comment.assign_attributes(comment_params)
-    if @comment.body_changed?
-      @comment.update(edited: true)
-    end
-    if @comment.save
+    if @comment.update(comment_params)
       redirect_to question_path(@comment.question)
     else
       render :edit, status: 422
