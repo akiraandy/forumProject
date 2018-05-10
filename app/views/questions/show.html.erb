@@ -9,7 +9,7 @@
         <p class="text-muted">This question has been edited</p>
     <% end %>
     <p style="background-color: #f8f9fa;"><%= @question.content %></p>
-    <% if current_user.questions.include?(@question) || current_user.admin || current_user.mod %>
+    <% if @current_user.questions.include?(@question) || @current_user.admin || @current_user.mod %>
         <%= link_to "Edit question", edit_question_path(@question), class: "btn btn-primary" %>
     <% end %>
 
