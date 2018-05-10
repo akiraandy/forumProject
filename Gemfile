@@ -41,6 +41,12 @@ gem "bootsnap", ">= 1.1.0", require: false
 
 gem "omniauth-google-oauth2",  "~> 0.5.3"
 
+gem "jquery-rails"
+
+gem "sprockets-rails", require: "sprockets/railtie"
+
+gem "bootstrap", "~> 4.1.1"
+
 group :development, :test do
   gem "faker"
   gem "factory_bot_rails"

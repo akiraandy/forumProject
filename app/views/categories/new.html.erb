@@ -3,8 +3,13 @@
 <% if @category.errors %>
     <%= render 'shared/errors', object: @category %>
 <% end %>
-<%= form_for @category, url: {action: "create"} do |f| %>
-    <%= f.label :name %>
-    <%= f.text_field :name %>
-    <%= f.submit "Create Category" %>
-<% end %>
+<div class="input-group">
+    <%= form_for @category, url: {action: "create"}, class: "input-group" do |f| %>
+        <div class="input-group-prepend">
+            <%= f.label :name, class: "input-group-text" %>
+            <%= f.text_field :name, class: "form-control" %>
+        </div>
+        <%= f.submit "Create Category", class: "btn btn-primary", style: "margin-top: 10px" %>
+    <% end %>
+</div>
+<%= link_to "Back to categories", categories_path, class: "btn btn-primary btn-lg btn-block", style: "margin-top: 50px" %>

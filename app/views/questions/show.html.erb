@@ -1,33 +1,42 @@
 <% if @question %>
     <h1><%= @question.title %></h1>
-    <% if @question.edited %>
-        <p>This question has been edited</p>
-    <% end %>
-    <p><%= @question.content %></p>
     <%= form_for @question, url: question_path(@question) do |f| %>
         <%= f.label "Flag content" %>
         <%= f.check_box :mod_flag %>
-        <%= f.submit "Submit" %>
+        <%= f.submit "Submit", class: "btn btn-primary" %>
     <% end %>
-    <ul>
+    <% if @question.edited %>
+        <p class="text-muted">This question has been edited</p>
+    <% end %>
+    <p style="background-color: #f8f9fa;"><%= @question.content %></p>
+    <% if current_user.questions.include?(@question) || current_user.admin || current_user.mod %>
+        <%= link_to "Edit question", edit_question_path(@question), class: "btn btn-primary" %>
+    <% end %>
+
+    <ul class="list-group">
     <% if @question.comments %>
+        <div class="list-group-item">
         <% @question.comments.each do |comment| %>
-            <li>Edited:<%= comment.edited %> <%= comment.content %></li>
+            <div ><%= comment.content %></div>
+            <% if comment.edited %>
+                <p class="text-muted">This comment has been edited.</p>
+            <% end %>
             <%= form_for comment, url: comment_path(comment) do |f| %>
                 <%= f.label "Flag content" %>
                 <%= f.check_box :mod_flag %>
-                <%= f.submit "Submit" %>
+                <%= f.submit "Submit", class: "btn btn-primary" %>
             <% end %>
             <% if !comment.deleted %>
                 <% if !comment.mod_flag %>
-                    <%= link_to 'Edit comment', { controller: "comments", action: :edit, id: comment.id } %>
+                    <%= link_to 'Edit comment', { controller: "comments", action: :edit, id: comment.id }, class: "btn btn-success" %>
                 <% end %>
-                <%= link_to 'Delete comment',  { controller: "comments", action: :destroy, id: comment.id }, method: :delete, data: { confirm: 'Are you sure?' } %>
+                <%= link_to 'Delete comment',  { controller: "comments", action: :destroy, id: comment.id }, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-danger" %>
             <% end %>
         <% end %>
+        </div>
     <% end %>
     </ul>
 <% end %>
 
-<%= link_to "Add new comment", new_question_comment_path(@question) %>
-<%= link_to "Back to all questions", category_path(@question.category) %>
+<%= link_to "Add new comment", new_question_comment_path(@question), class: "btn btn-primary btn-block" %>
+<%= link_to "Back to all questions", category_path(@question.category), class: "btn btn-primary btn-block" %>
