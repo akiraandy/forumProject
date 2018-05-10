@@ -2,7 +2,9 @@
 
 class CommentsController < ApplicationController
   include CommentsControllerHelper
-  before_action :can_edit!, only: :update
+  before_action :can_edit!, only: [:update, :edit, :destroy]
+  before_action :not_flagged, only: [:edit]
+  before_action :not_destroyed, only: [:edit, :destroy]
   before_action :authorize!
 
   def create
@@ -21,6 +23,10 @@ class CommentsController < ApplicationController
     @comment = Comment.new
   end
 
+  def edit
+    @comment = Comment.find(params[:id])
+  end
+
   def update
     @comment = Comment.find(params[:id])
     if @comment.update(comment_params)
@@ -28,6 +34,12 @@ class CommentsController < ApplicationController
     else
       render :edit, status: 422
     end
+  end
+
+  def destroy
+    @comment = Comment.find(params[:id])
+    @comment.update(deleted: true)
+    redirect_to question_path(@comment.question)
   end
 
     private

@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class Comment < ApplicationRecord
+  include Flaggable
   before_update :edit_flag
   belongs_to :user
   belongs_to :question

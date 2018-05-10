@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class Question < ApplicationRecord
+  include Flaggable
   before_update :edit_flag
   belongs_to :user
   belongs_to :category
@@ -14,7 +15,7 @@ class Question < ApplicationRecord
   private
 
     def edit_flag
-      if self.title_changed? || self.body_changed?
+      if !self.edited && (self.title_changed? || self.body_changed?)
         self.edited = true
       end
     end
