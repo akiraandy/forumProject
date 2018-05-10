@@ -98,5 +98,15 @@ RSpec.describe QuestionsController, type: :controller do
       expect(response).to render_template(:edit)
       expect(response).to have_http_status(422)
     end
+
+    it "will turn on the edit flag if title or body changed" do
+      put :update, params: { id: question.id, question: { body: "body changed! Test Test Test" } }
+      expect(question.reload.edited).to eq true
+    end
+
+    it "will not turn on the edit flag if another attribute besides the title or body changed" do
+      put :update, params: { id: question.id, question: { mod_flag: true } }
+      expect(question.reload.edited).to eq false
+    end
   end
 end

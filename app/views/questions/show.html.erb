@@ -1,5 +1,8 @@
 <% if @question %>
     <h1><%= @question.title %></h1>
+    <% if @question.edited %>
+        <p>This question has been edited</p>
+    <% end %>
     <p><%= @question.body %></p>
     <%= form_for @question, url: question_path(@question) do |f| %>
         <%= f.label "Flag content" %>
@@ -9,7 +12,8 @@
     <ul>
     <% if @question.comments %>
         <% @question.comments.each do |comment| %>
-            <li><%= comment.body %></li>
+
+            <li>Edited:<%= comment.edited %> <%= comment.body %></li>
             <%= form_for comment, url: comment_path(comment) do |f| %>
                 <%= f.label "Flag content" %>
                 <%= f.check_box :mod_flag %>
