@@ -14,6 +14,10 @@ cd ~/forumProject
 ```
 bundle install
 ```
+5. Create and setup database, copy and paste the following:
+```
+rake db:create && rake db:migrate && rake db:seed
+```
 
 5. To run server
 ```
