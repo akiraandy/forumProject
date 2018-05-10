@@ -95,4 +95,105 @@ RSpec.describe CommentsController, type: :controller do
       expect(user_comment.reload.edited).to eq false
     end
   end
+
+  describe "GET edit" do
+    let(:comment) { create(:comment) }
+    let(:flagged_comment) { create(:flagged_comment) }
+    let(:deleted_comment) { create(:deleted_comment) }
+    let(:user) { sign_in_user_with_comment }
+    let(:user_comment) { user.comments.first }
+
+    it "won't allow access to regular users who did not create the comment" do
+      sign_in_user
+      get :edit, params: { id: comment.id }
+      expect(response).to have_http_status(401)
+    end
+
+    it "will allow access to the owner of the comment" do
+      get :edit, params: { id: user_comment.id }
+      expect(response).to have_http_status(200)
+    end
+
+    it "will allow admin access" do
+      sign_in_admin
+      get :edit, params: { id: user_comment.id }
+      expect(response).to have_http_status(200)
+    end
+
+    it "will allow mod access" do
+      sign_in_mod
+      get :edit, params: { id: user_comment.id }
+      expect(response).to have_http_status(200)
+    end
+
+    it "won't allow access if comment has been flagged" do
+      session[:user_id] = flagged_comment.user.id
+      get :edit, params: { id: flagged_comment.id }
+      expect(response).to have_http_status(401)
+    end
+
+    it "will allow access to mods and admins if the content has been flagged" do
+      sign_in_admin
+      get :edit, params: { id: flagged_comment.id }
+      expect(response).to have_http_status(200)
+      sign_in_mod
+      get :edit, params: { id: flagged_comment.id }
+      expect(response).to have_http_status(200)
+    end
+
+    it "won't allow access if comment has been destroyed" do
+      session[:user_id] = deleted_comment.user.id
+      get :edit, params: { id: deleted_comment.id }
+      expect(response).to have_http_status(401)
+    end
+
+    it "will allow access to mods and admins if the content has been deleted" do
+      sign_in_admin
+      get :edit, params: { id: deleted_comment.id }
+      expect(response).to have_http_status(200)
+      sign_in_mod
+      get :edit, params: { id: deleted_comment.id }
+      expect(response).to have_http_status(200)
+    end
+
+    it "renders edit" do
+      get :edit, params: { id: user_comment.id }
+      expect(response).to render_template(:edit)
+    end
+  end
+
+  describe "DELETE destroy" do
+    let(:comment) { create(:comment) }
+    let(:user) { sign_in_user_with_comment }
+    let(:user_comment) { user.comments.first }
+
+    it "won't allow access to regular users who did not create the comment" do
+      sign_in_user
+      delete :destroy, params: { id: comment.id }
+      expect(response).to have_http_status(401)
+    end
+
+    it "will allow access to the owner of the comment" do
+      delete :destroy, params: { id: user_comment.id }
+      expect(response).to redirect_to(question_path(user_comment.question))
+    end
+
+    it "allows admin access" do
+      sign_in_admin
+      delete :destroy, params: { id: user_comment.id }
+      expect(response).to redirect_to(question_path(user_comment.question))
+    end
+
+    it "allows mod access" do
+      sign_in_mod
+      delete :destroy, params: { id: user_comment.id }
+      expect(response).to redirect_to(question_path(user_comment.question))
+    end
+
+    it "sets the deleted flag to true on comment" do
+      expect(user_comment.deleted).to eq false
+      delete :destroy, params: { id: user_comment.id }
+      expect(user_comment.reload.deleted).to eq true
+    end
+  end
 end

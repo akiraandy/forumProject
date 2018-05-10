@@ -54,14 +54,43 @@ FactoryBot.define do
     mod_flag false
     deleted false
     edited false
+    factory :question_with_deleted_comment do
+      after :create do |comment|
+        create(:comment, question: comment, deleted: true)
+      end
+    end
+    factory :question_with_flagged_comment do
+      after :create do |comment|
+        create(:comment, question: comment, mod_flag: true)
+      end
+    end
+
+    factory :deleted_question do
+      after :create do |deleted_question|
+          deleted_question.deleted = true
+        end
+    end
+    factory :flagged_question do
+      after :create do |flagged_question|
+          flagged_question.mod_flag = true
+        end
+    end
   end
 
+
   factory :comment do
-    sequence(:body) { |n| "comment_#{n}" }
+    body "commentTestBody" * 5
     user
     question
     edited false
     deleted false
     mod_flag false
+    factory :deleted_comment do
+      deleted true
+    end
+
+    factory :flagged_comment do
+      mod_flag true
+    end
   end
 end

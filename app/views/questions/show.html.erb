@@ -3,7 +3,7 @@
     <% if @question.edited %>
         <p>This question has been edited</p>
     <% end %>
-    <p><%= @question.body %></p>
+    <p><%= @question.content %></p>
     <%= form_for @question, url: question_path(@question) do |f| %>
         <%= f.label "Flag content" %>
         <%= f.check_box :mod_flag %>
@@ -12,12 +12,17 @@
     <ul>
     <% if @question.comments %>
         <% @question.comments.each do |comment| %>
-
-            <li>Edited:<%= comment.edited %> <%= comment.body %></li>
+            <li>Edited:<%= comment.edited %> <%= comment.content %></li>
             <%= form_for comment, url: comment_path(comment) do |f| %>
                 <%= f.label "Flag content" %>
                 <%= f.check_box :mod_flag %>
                 <%= f.submit "Submit" %>
+            <% end %>
+            <% if !comment.deleted %>
+                <% if !comment.mod_flag %>
+                    <%= link_to 'Edit comment', { controller: "comments", action: :edit, id: comment.id } %>
+                <% end %>
+                <%= link_to 'Delete comment',  { controller: "comments", action: :destroy, id: comment.id }, method: :delete, data: { confirm: 'Are you sure?' } %>
             <% end %>
         <% end %>
     <% end %>
