@@ -1,11 +1,10 @@
 <% if @category %>
-    <h1><%= @category.name %></h1>
-    <ul>
+    <h1 class="text-center"><%= @category.name %></h1>
+    <%= link_to "Post new question", new_category_question_path(@category), class: "btn btn-primary btn-block"%>
+    <ul class="list-group">
         <% @category.questions.each do |question| %>
-            <li><%= link_to question.title, question_path(question)%></li>
+            <li class="list-group-item"><%= link_to question.title, question_path(question)%></li>
         <% end %>
     </ul>
 <% end %>
 
-<%= link_to "Post new question", new_category_question_path(@category) %>
-<%= link_to "All categories", categories_path %>

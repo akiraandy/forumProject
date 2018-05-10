@@ -1,2 +1,8 @@
-<h1>Home#show</h1>
-<p>Find me in app/views/home/show.html.erb</p>
+<div class="container text-center">
+    <h1>Welcome to the forum!</h1>
+    <% if current_user %>
+        <%= link_to "Enter forum", categories_path, class: "btn btn-primary btn-lg" %>
+    <% else %>
+        <p>Please sign in!</p>
+    <% end %>
+</div>

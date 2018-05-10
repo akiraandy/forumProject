@@ -1,14 +1,16 @@
 <h1>Manage users</h1>
 <h3>User List:</h3>
-<ul>
+<ul class="list-group">
+    <div class="list-group-item">
     <% @users.each do |user| %>
-        <li><%= user.name %></li>
+        <p><%= user.name %></p>
         <%= form_for user, url: user_path(user) do |f| %>
             <%= f.label :mod %>
             <%= f.check_box :mod %>
             <%= f.label :admin %>
             <%= f.check_box :admin %>
-            <%= f.submit "Submit" %>
+            <%= f.submit "Submit", class: "btn btn-primary" %>
         <% end %>
     <% end %>
+    </div>
 </ul>

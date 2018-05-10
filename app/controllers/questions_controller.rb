@@ -9,6 +9,10 @@ class QuestionsController < ApplicationController
     @question = Question.find(params[:id])
   end
 
+  def edit
+    @question = Question.find(params[:id])
+  end
+
   def new
     @category = Category.find(params[:category_id])
     @question = Question.new
