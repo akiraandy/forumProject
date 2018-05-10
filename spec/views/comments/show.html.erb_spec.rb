@@ -3,9 +3,9 @@
 require "rails_helper"
 
 describe "questions/show.html.erb" do
-    before(:each) do
-        @current_user = create(:user)
-    end
+  before(:each) do
+    @current_user = create(:user)
+  end
   it "displays deleted comments correctly" do
     assign(:question, create(:question_with_deleted_comment))
 
