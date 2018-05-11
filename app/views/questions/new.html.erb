@@ -2,12 +2,14 @@
 <% if @question.errors %>
     <%= render 'shared/errors', object: @question %>
 <% end %>
-<%= form_for @question, url: {action: "create"} do |f| %>
-    <%= f.label :title %>
-    <%= f.text_field :title %>
-    <%= f.label :body %>
-    <%= f.text_area :body %>
-    <%= f.submit "Create question" %>
-<% end %>
+<div class="form-group">
+    <%= form_for @question, url: {action: "create"} do |f| %>
+        <%= f.label :title, class: "form-control"%>
+        <%= f.text_field :title, class: "form-control" %>
+        <%= f.label :body, class: "form-control"%>
+        <%= f.text_area :body, class: "form-control"%>
+        <%= f.submit "Create question", class: "btn btn-primary"%>
+    <% end %>
+</div>
 
-<%= link_to "Back to category", category_path(@category)%>
+<%= link_to "Back to category", category_path(@category), class: "btn btn-primary" %>

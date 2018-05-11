@@ -9,6 +9,7 @@
         <p class="text-muted">This question has been edited</p>
     <% end %>
     <p style="background-color: #f8f9fa;"><%= @question.content %></p>
+    <p>Question submitted by <%= @question.user.name %> on <%= @question.created_at.strftime("%m/%d/%Y")%></p>
     <% if @current_user.questions.include?(@question) || @current_user.admin || @current_user.mod %>
         <%= link_to "Edit question", edit_question_path(@question), class: "btn btn-primary" %>
     <% end %>
@@ -17,7 +18,8 @@
     <% if @question.comments %>
         <div class="list-group-item">
         <% @question.comments.each do |comment| %>
-            <div ><%= comment.content %></div>
+            <div><%= comment.content %></div>
+            <p>Comment submitted by <%= comment.user.name %> on <%= comment.created_at.strftime("%m/%d/%Y") %></p>
             <% if comment.edited %>
                 <p class="text-muted">This comment has been edited.</p>
             <% end %>

@@ -2,7 +2,7 @@
 
 class CategoriesController < ApplicationController
   before_action :authorize!
-  before_action :admin!, only: [:new, :create]
+  before_action :admin_or_mod!, only: [:new, :create]
 
   def index
     @categories = Category.all

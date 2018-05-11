@@ -17,4 +17,8 @@ class ApplicationController < ActionController::Base
   def admin!
     render file: "public/401.html", status: :unauthorized unless current_user.admin
   end
+
+  def admin_or_mod!
+    render file: "public/401.html", status: :unauthorized unless current_user.admin || current_user.mod
+  end
 end
