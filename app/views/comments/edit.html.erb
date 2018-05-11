@@ -1,5 +1,9 @@
+<% if @comment.errors %>
+    <%= render 'shared/errors', object: @comment %>
+<% end %>
+<div class="form-group">
 <%= form_for @comment do |f| %>
     <%= f.label :body %>
-    <%= f.text_area :body %>
-    <%= f.submit "Edit comment" %>
+    <%= f.text_area :body, class: "form-control" %>
+    <%= f.submit "Edit comment", class: "btn btn-primary" %>
 <% end %>

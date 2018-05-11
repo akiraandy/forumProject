@@ -21,10 +21,16 @@ RSpec.describe CategoriesController, type: :controller do
   end
 
   describe "GET new" do
-    it "only allows admin access" do
+    it "does not allow regular user access" do
       sign_in_user
       get :new
       expect(response).to have_http_status(401)
+    end
+
+    it "allows mod access" do
+      sign_in_mod
+      get :new
+      expect(response).to have_http_status(200)
     end
 
     it "allows admin access" do
