@@ -1,10 +1,27 @@
 FROM ruby:2.5.0
-RUN apt-get update -qq && apt-get install -y build-essential libpq-dev nodejs
-RUN mkdir /myapp
-WORKDIR /myapp
-COPY Gemfile /myapp/Gemfile
-COPY Gemfile.lock /myapp/Gemfile.lock
+ENV APP_HOME /production
+RUN apt-get update -qq \
+  && apt-get install -y \
+      # Needed for certain gems
+    build-essential \
+         # Needed for postgres gem
+    libpq-dev \
+         # Needed for asset compilation
+    nodejs \
+    # The following are used to trim down the size of the image by removing unneeded data
+  && apt-get clean autoclean \
+  && apt-get autoremove -y \
+  && rm -rf \
+    /var/lib/apt \
+    /var/lib/dpkg \
+    /var/lib/cache \
+
+RUN mkdir $APP_HOME
+WORKDIR $APP_HOME    /var/lib/log
+
+ADD Gemfile* $APP_HOME/
 RUN bundle install
-COPY . /myapp
-EXPOSE ${PORT}
+
+ADD . $APP_HOME
+
 CMD bundle exec rails s -p ${PORT} -b '0.0.0.0'
