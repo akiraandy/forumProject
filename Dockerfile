@@ -6,4 +6,5 @@ COPY Gemfile /myapp/Gemfile
 COPY Gemfile.lock /myapp/Gemfile.lock
 RUN bundle install
 COPY . /myapp
-EXPOSE 3000
+EXPOSE ${PORT}
+CMD bundle exec rails s -p ${PORT} -b '0.0.0.0'
