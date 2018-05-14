@@ -35,6 +35,12 @@ RSpec.describe CommentsController, type: :controller do
       get :new, params: { question_id: question.id }
       expect(response).to have_http_status(200)
     end
+
+    it "will return 404 if question does not exist" do
+      sign_in_user
+      get :new, params: { question_id: -1 }
+      expect(response).to have_http_status(404)
+    end
   end
 
   describe "PUT update" do
@@ -110,9 +116,9 @@ RSpec.describe CommentsController, type: :controller do
     end
 
     it "will allow access to the owner of the comment" do
-      get :edit, params: { id: user_comment.id }
-      expect(response).to have_http_status(200)
-    end
+       get :edit, params: { id: user_comment.id }
+       expect(response).to have_http_status(200)
+     end
 
     it "will allow admin access" do
       sign_in_admin
@@ -159,6 +165,12 @@ RSpec.describe CommentsController, type: :controller do
     it "renders edit" do
       get :edit, params: { id: user_comment.id }
       expect(response).to render_template(:edit)
+    end
+
+    it "returns a 404 if resource does not exist" do
+      sign_in_admin
+      get :edit, params: { id: -1000 }
+      expect(response).to have_http_status(404)
     end
   end
 

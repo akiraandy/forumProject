@@ -6,15 +6,21 @@ RSpec.describe QuestionsController, type: :controller do
   describe "GET show" do
     let(:question) { create(:question) }
     it "should only allow user access" do
-      get :show, params: { category_id: question.category_id, id: question.id }
+      get :show, params: { id: question.id }
       expect(response).to redirect_to(root_path)
     end
 
     it "displays question succesfully" do
       sign_in_user
-      get :show, params: { category_id: question.category_id, id: question.id }
+      get :show, params: { id: question.id }
       expect(response).to have_http_status(200)
       expect(response).to render_template(:show)
+    end
+
+    it "returns a 404 if resource does not exist" do
+      sign_in_user
+      get :show, params: { id: -1 }
+      expect(response).to have_http_status(404)
     end
   end
 
@@ -29,6 +35,12 @@ RSpec.describe QuestionsController, type: :controller do
       sign_in_user
       get :new, params: { category_id: category.id }
       expect(response).to have_http_status(200)
+    end
+
+    it "should return a 404 if resource does not exist" do
+      sign_in_user
+      get :new, params: { category_id: -1 }
+      expect(response).to have_http_status(404)
     end
   end
 
@@ -107,6 +119,14 @@ RSpec.describe QuestionsController, type: :controller do
     it "will not turn on the edit flag if another attribute besides the title or body changed" do
       put :update, params: { id: question.id, question: { mod_flag: true } }
       expect(question.reload.edited).to eq false
+    end
+  end
+
+  describe "GET edit" do
+    it "will return 404 if resource does not exist" do
+      sign_in_user
+      get :edit, params: { id: -1 }
+      expect(response).to have_http_status(404)
     end
   end
 end

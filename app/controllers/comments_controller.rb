@@ -19,12 +19,18 @@ class CommentsController < ApplicationController
   end
 
   def new
-    @question = Question.find(params[:question_id])
+    @question = Question.find_by(id: params[:question_id])
     @comment = Comment.new
+    if !@question
+      render file: "public/404.html", status: :not_found
+    end
   end
 
   def edit
-    @comment = Comment.find(params[:id])
+    @comment = Comment.find_by(id: params[:id])
+    if !@comment
+      render file: "public/404.html", status: :not_found
+    end
   end
 
   def update

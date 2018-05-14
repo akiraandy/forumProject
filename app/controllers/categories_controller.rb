@@ -13,7 +13,10 @@ class CategoriesController < ApplicationController
   end
 
   def show
-    @category = Category.find(params[:id])
+    @category = Category.find_by(id: params[:id])
+    if !@category
+      render file: "public/404.html", status: :not_found
+    end
   end
 
   def create
