@@ -20,6 +20,21 @@ RSpec.describe CategoriesController, type: :controller do
     end
   end
 
+  describe "GET show" do
+    it "will return a 404 if resource does not exist" do
+      sign_in_user
+      get :show, params: { id: 1000 }
+      expect(response).to have_http_status(404)
+    end
+
+    it "will return a 200 if resource is found" do
+      sign_in_user
+      category = create(:category)
+      get :show, params: { id: category.id }
+      expect(response).to have_http_status(200)
+    end
+  end
+
   describe "GET new" do
     it "does not allow regular user access" do
       sign_in_user

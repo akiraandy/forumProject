@@ -5,4 +5,6 @@
         <% end %>
     </ul>
 <% end %>
-<%= link_to "New Category", new_category_url, class: "btn btn-success btn-lg btn-block" %>
+<% if @current_user.admin || @current_user.mod %>
+    <%= link_to "New Category", new_category_url, class: "btn btn-success btn-lg btn-block" %>
+<% end %>
