@@ -36,4 +36,17 @@ describe "questions/show.html.erb" do
 
     expect(rendered).to have_content("Content has been flagged")
   end
+
+  it "won't show mod flag option if the question is owned by current user" do
+    @current_user = create(:user_with_question)
+    assign(:question, @current_user.questions.first)
+
+    render
+
+    expect(rendered).to_not have_content("Flag question")
+  end
+
+  it "won't show mod flag option if the comment is owned by current user" do
+
+  end
 end

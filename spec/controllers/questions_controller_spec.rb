@@ -56,7 +56,7 @@ RSpec.describe QuestionsController, type: :controller do
     it "redirects to question upon successful creation" do
       sign_in_user
       post :create, params: { category_id: category.id, question: { title: question.title, body: question.body } }
-      expect(response).to redirect_to(question_comments_url(assigns(:question)))
+      expect(response).to redirect_to(question_url(assigns(:question)))
     end
 
     it "renders new if invalid data received" do
