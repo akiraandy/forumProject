@@ -1,8 +1,8 @@
 <% if @question %>
     <h1><%= @question.title %></h1>
-    <% if @current_user.mod || @current_user.admin %>
+    <% if (@current_user.mod || @current_user.admin) && !@current_user.questions.include?(@question) %>
         <%= form_for @question, url: question_path(@question) do |f| %>
-            <%= f.label "Flag content" %>
+            <%= f.label "Flag question" %>
             <%= f.check_box :mod_flag %>
             <%= f.submit "Submit", class: "btn btn-primary" %>
         <% end %>
@@ -25,9 +25,9 @@
             <% if comment.edited %>
                 <p class="text-muted">This comment has been edited.</p>
             <% end %>
-            <% if @current_user.comments.include?(comment) || @current_user.admin || @current_user.mod %>
+            <% if !@current_user.comments.include?(comment) && (@current_user.admin || @current_user.mod) %>
                 <%= form_for comment, url: comment_path(comment) do |f| %>
-                    <%= f.label "Flag content" %>
+                    <%= f.label "Flag comment" %>
                     <%= f.check_box :mod_flag %>
                     <%= f.submit "Submit", class: "btn btn-primary" %>
                 <% end %>

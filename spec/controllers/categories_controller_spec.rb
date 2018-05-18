@@ -70,7 +70,7 @@ RSpec.describe CategoriesController, type: :controller do
 
     it "will render new upon invalid params" do
       sign_in_admin
-      post :create, params: { category: { name: "tooLongForValidCategory" } }
+      post :create, params: { category: { name: "tooLongForValidCategory" * 20 } }
       expect(response).to render_template(:new)
     end
   end
